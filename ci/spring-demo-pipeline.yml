@@ -1,0 +1,25 @@
+resources:
+- name: source-code
+  type: git
+  source:
+    uri: git@github.com:jeffellin/spring-demo.git
+    branch: master
+    private_key: ((private_key))
+- name: docker-image
+  type: docker-image
+  source:
+    repository: harbor.ellin.net:443/library/git-resource
+    username: jeff
+    password: Pivotal!23
+    insecure_registries:
+      - harbor.ellin.net:443
+jobs:
+  - name: job-bump-date
+    serial: true
+    plan:
+      - get: source-code
+      - task: build-project
+        file: source-code/ci/tasks/maven-build-task.yml
+      - put: docker-image
+        params:
+          build: source-code/target
