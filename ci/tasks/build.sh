@@ -7,7 +7,7 @@ ls
 
 pushd source-code
     ls
-	#mvn clean package 
+	mvn clean package 
 popd
 
 mkdir packed-release/target
