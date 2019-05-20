@@ -28,10 +28,9 @@ jobs:
       - get: source-code
       - task: build-project
         file: source-code/ci/tasks/maven-build-task.yml
-     - put: release
+      - put: release
         params:
           file: packed-release/release-*.tgz
-job:
   - name: deploy-image
     plan:
       - get: docker-image
@@ -44,6 +43,6 @@ job:
             run:
               path: echo
               args: [hello world]
-       - put: docker-image
-         params:
+      - put: docker-image
+        params:
           build: source-code/targe
