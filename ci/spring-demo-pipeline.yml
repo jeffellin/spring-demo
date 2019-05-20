@@ -1,4 +1,12 @@
 resources:
+- name: release
+  type: s3
+  source:
+    bucket: releases
+    access_key_id: minio
+    secret_access_key: minio123
+    skip_ssl_verification: true
+    endpoint: http://minio.ellin.net
 - name: source-code
   type: git
   source:
@@ -8,7 +16,7 @@ resources:
 - name: docker-image
   type: docker-image
   source:
-    repository: harbor.ellin.net:443/library/git-resource
+    repository: harbor.ellin.net:443/library/spring-demo
     username: jeff
     password: Pivotal!23
     insecure_registries:
@@ -20,6 +28,22 @@ jobs:
       - get: source-code
       - task: build-project
         file: source-code/ci/tasks/maven-build-task.yml
-      - put: docker-image
+     - put: release
         params:
-          build: source-code/target
+          file: packed-release/release-*.tgz
+job:
+  - name: deploy-image
+    plan:
+      - get: docker-image
+      - task: hello-world
+        config:
+            platform: linux
+            image_resource:
+              type: docker-image
+              source: {repository: busybox}
+            run:
+              path: echo
+              args: [hello world]
+       - put: docker-image
+         params:
+          build: source-code/targe
