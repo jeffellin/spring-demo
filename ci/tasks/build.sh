@@ -8,3 +8,6 @@ pushd source-code
     ls
 	mvn clean package 
 popd
+
+cp source-code/docker/Dockerfile source-code/target
+ls source-code/target
