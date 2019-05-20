@@ -8,8 +8,7 @@ image_resource:
     tag: 3.5.3-jdk-8-alpine
 
 inputs:
-  - name: source
-  - name: pipeline-source
+  - name: source-code
 
 outputs:
   - name: unpacked-artifacts
@@ -26,10 +25,8 @@ params:
   M2_SETTINGS_PROXY_PORT: ""
   ARTIFACT_TYPE: ""
 
-caches:
-  - path: maven
 
 run:
   path: /bin/bash
   args:
-    - pipeline-source/tasks/build.sh
+    - source-code/ci/tasks/build.sh
