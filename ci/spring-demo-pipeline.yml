@@ -7,6 +7,14 @@ resources:
     secret_access_key: minio123
     endpoint: http://minio.ellin.net
     regexp: release-(.*).tgz
+- name: version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:jeffellin/spring-demo.git
+    branch: version
+    file: version
+    private_key: ((private_key))
 - name: source-code
   type: git
   source:
@@ -26,6 +34,8 @@ jobs:
     serial: true
     plan:
       - get: source-code
+        trigger: true
+      - get: version
       - task: build-project
         file: source-code/ci/tasks/maven-build-task.yml
       - put: release
@@ -35,6 +45,7 @@ jobs:
     plan:
       - get: release
         passed: [build-project]
+        trigger: true
       - task: push-to-docker
         config:
           inputs:
@@ -60,9 +71,10 @@ jobs:
     plan:
       - get: release
         passed: [deploy-image]
+        trigger: true
       - get: source-code
       - task: push-to-pks
-        file: source-code/ci/tasks/oks-deploy-task.yml
+        file: source-code/ci/tasks/pks-deploy-task.yml
         vars:
           PKS_USER: ((PKS_USER))
           PKS_PASSWORD: ((PKS_PASSWORD))
