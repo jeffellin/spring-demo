@@ -9,6 +9,7 @@ image_resource:
 
 inputs:
   - name: release
+  - name: docker-image
 
   
 params:
