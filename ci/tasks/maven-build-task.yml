@@ -9,13 +9,14 @@ image_resource:
 
 inputs:
   - name: source-code
+  - name: version
 
 outputs:
   - name: packed-release
 
 caches:
   - path: maven
-  
+
 params:
   MVN_PARAMS: ""
   M2_SETTINGS_CORP_REPO_USERNAME: ""
