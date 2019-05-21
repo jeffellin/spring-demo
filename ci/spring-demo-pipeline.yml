@@ -72,9 +72,11 @@ jobs:
       - put: docker-image
         params:
           build: docker-build
+          tag_file: release/version
+          tag_as_latest: true
   - name: push-to-pks
     plan:
-      - get: release
+      - get: docker-image
         passed: [deploy-image]
         trigger: true
       - get: source-code
