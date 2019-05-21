@@ -7,7 +7,7 @@ ls
 
 pushd source-code
     ls
-	mvn clean package 
+	mvn clean package -DskipTests
 popd
 
 mkdir packed-release/target
