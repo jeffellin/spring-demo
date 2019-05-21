@@ -42,6 +42,7 @@ jobs:
       - put: release
         params:
           file: packed-release/release-*.tgz
+      - put: version
   - name: deploy-image
     plan:
       - get: release
@@ -64,7 +65,9 @@ jobs:
               - |
                 ls
                 ls release
-                tar xvf release/release-0.0.1.tgz -C docker-build
+                VERSION=$(cat release/version)
+                tar xvf release/release-${VERSION}.tgz -C docker-build
+                mv docker-build/web-demo-${VERSION}.jar docker-build/web-demo.jar
       - put: docker-image
         params:
           build: docker-build
