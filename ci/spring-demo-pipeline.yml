@@ -3,8 +3,8 @@ resources:
   type: s3
   source:
     bucket: releases
-    access_key_id: minio
-    secret_access_key: minio123
+    access_key_id: ((minio.user))
+    secret_access_key: ((minio.password))
     endpoint: http://minio.ellin.net
     regexp: release-(.*).tgz
 - name: version
@@ -26,7 +26,7 @@ resources:
   source:
     repository: harbor.ellin.net:443/library/spring-demo
     username: jeff
-    password: Pivotal!23
+    password: ((harbor.password))
     insecure_registries:
       - harbor.ellin.net:443
 jobs:
