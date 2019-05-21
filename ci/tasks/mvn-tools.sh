@@ -51,74 +51,10 @@ generate_settings() {
 	cat > ${HOME}/.m2/settings.xml <<EOF
 
 	<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-														https://maven.apache.org/xsd/settings-1.0.0.xsd">
-
-				<proxies>
-					<proxy>
-						<active>true</active>
-						<protocol>http</protocol>
-						<host>${M2_SETTINGS_PROXY_HOST}</host>
-						<port>${M2_SETTINGS_PROXY_PORT}</port>
-					</proxy>
-				</proxies>
-
-				<mirrors>
-						<mirror>
-							<id>corporate</id>
-							<mirrorOf>*,!org</mirrorOf>
-							<url>${M2_SETTINGS_CENTRAL_MIRROR_URI}</url>
-						</mirror>
-						<mirror>
-							<id>org</id>
-							<mirrorOf>org</mirrorOf>
-							<url>${M2_SETTINGS_ORG_MIRROR_URI}</url>
-						</mirror>
-				</mirrors>
-				<servers>
-					<server>
-						<id>corporate</id>
-						<username>${M2_SETTINGS_CORP_REPO_USERNAME}</username>
-						<password>${M2_SETTINGS_CORP_REPO_PASSWORD}</password>
-					</server>
-					<server>
-						<id>org</id>
-						<username>${M2_SETTINGS_ORG_REPO_USERNAME}</username>
-						<password>${M2_SETTINGS_ORG_REPO_PASSWORD}</password>
-					</server>
-				</servers>
-				<profiles>
-					<profile>
-						<id>ci</id>
-						<repositories>
-							<repository>
-								<id>org</id>
-								<url>${M2_SETTINGS_ORG_MIRROR_URI}</url>
-								<releases>
-									<enabled>true</enabled>
-								</releases>
-								<snapshots>
-									<enabled>true</enabled>
-								</snapshots>
-							</repository>
-							<repository>
-								<id>corporate</id>
-								<url>${M2_SETTINGS_CENTRAL_MIRROR_URI}</url>
-								<releases>
-									<enabled>true</enabled>
-								</releases>
-								<snapshots>
-									<enabled>true</enabled>
-								</snapshots>
-							</repository>
-						</repositories>
-					</profile>
-				</profiles>
-				<activeProfiles>
-						<activeProfile>ci</activeProfile>
-				</activeProfiles>
-	</settings>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+       <localRepository>${M2_CACHE}</localRepository>
+</settings>
 
 EOF
 }
