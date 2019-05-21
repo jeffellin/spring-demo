@@ -3,9 +3,9 @@
 set -eux
 export ROOT_FOLDER="$( pwd )"
 SCRIPT_DIR=$(dirname "$0")
-source ${SCRIPT_DIR}/mvn-tools.sh
 M2_HOME="${ROOT_FOLDER}/.m2"
 M2_CACHE="${ROOT_FOLDER}/maven"
+source ${SCRIPT_DIR}/mvn-tools.sh
 
 
 
