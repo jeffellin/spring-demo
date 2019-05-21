@@ -43,6 +43,7 @@ jobs:
         params:
           file: packed-release/release-*.tgz
       - put: version
+        params: {file: version/version}
   - name: deploy-image
     plan:
       - get: release
