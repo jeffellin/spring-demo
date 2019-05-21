@@ -1,8 +1,14 @@
 #!/bin/bash
 
 set -eux
-
 export ROOT_FOLDER="$( pwd )"
+source ${SCRIPT_DIR}/mvn-tools.sh
+M2_HOME="${HOME}/.m2"
+M2_CACHE="${ROOT_FOLDER}/maven"
+
+
+
+generate_settings
 ls
 
 pushd source-code

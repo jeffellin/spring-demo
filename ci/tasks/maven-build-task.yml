@@ -13,6 +13,9 @@ inputs:
 outputs:
   - name: packed-release
 
+caches:
+  - path: maven
+  
 params:
   MVN_PARAMS: ""
   M2_SETTINGS_CORP_REPO_USERNAME: ""

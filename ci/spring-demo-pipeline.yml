@@ -6,6 +6,7 @@ resources:
     access_key_id: minio
     secret_access_key: minio123
     endpoint: http://192.168.1.6:9000
+    regexp: release-(.*).tgz
 - name: source-code
   type: git
   source:
@@ -29,7 +30,7 @@ jobs:
         file: source-code/ci/tasks/maven-build-task.yml
       - put: release
         params:
-          file: packed-release/release-0.0.1.tgz
+          file: packed-release/release-*.tgz
   - name: deploy-image
     plan:
       - get: docker-image
