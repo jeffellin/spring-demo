@@ -56,3 +56,15 @@ jobs:
       - put: docker-image
         params:
           build: docker-build
+  - name: push-to-pks
+    plan:
+      - get: release
+        passed: [deploy-image]
+      - get: source-code
+      - task: push-to-pks
+        file: source-code/ci/tasks/oks-deploy-task.yml
+        vars:
+          PKS_USER: ((PKS_USER))
+          PKS_PASSWORD: ((PKS_PASSWORD))
+          PKS_ENDPOINT: ((PKS_ENDPOINT))
+          PKS_CLUSTER: ((PKS_CLUSTER))
