@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: spring-demo
   labels:
-    version: {{VERSION}}
+    version: "{{VERSION}}"
 spec:
   containers:
     - image: harbor.ellin.net/library/spring-demo
