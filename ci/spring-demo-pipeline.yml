@@ -2,10 +2,8 @@ resource_types:
 - name: kubernetes
   type: docker-image
   source:
-    repository: harbor.ellin.net:443/library/kubernetes-resource
+    repository: ellinj/pks-resource
     tag: "latest"
-    insecure_registries:
-    - harbor.ellin.net:443
 resources:
 - name: kubernetes-production
   type: kubernetes
