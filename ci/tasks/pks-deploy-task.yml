@@ -19,18 +19,6 @@ params:
   PKS_CLUSTER: ((PKS_CLUSTER))
 
 run:
-  path: sh
-  args: 
-    - -exc
-    - |
-      VERSION=$(cat release/version)
-      ls
-      ls release
-      cd release
-      tar xvf release-${VERSION}.tgz
-      pks login -a ${PKS_ENDPOINT} -u ${PKS_USER} -p ${PKS_PASSWORD} -k
-      pks get-credentials ${PKS_CLUSTER}
-      kubectl get pods
-      template=`cat "spring-demo-pod.yml" | sed "s/{{VERSION}}/$VERSION/g"`
-      # apply the yml with the substituted value
-      echo "$template" | kubectl apply -f -
+  path: /bin/bash
+  args:
+    - source-code/ci/tasks/push-pks.sh
