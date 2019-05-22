@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION=2
+VERSION=$(cat release/version)
 ls
 set -ex
 ls release
