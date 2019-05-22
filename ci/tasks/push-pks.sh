@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo "hello world"
+
 VERSION=$(cat release/version)
 ls
 set -ex
