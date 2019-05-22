@@ -13,4 +13,4 @@ tar xvf release-${VERSION}.tgz
 #kubectl get pods
 template=`cat "spring-demo-pod.yml" | sed "s/{VERSION}/$VERSION/g"`
 # apply the yml with the substituted value
-echo "$template" > spring-demo-modified.yml
+echo "$template" > ../pks-build/spring-demo-modified.yml

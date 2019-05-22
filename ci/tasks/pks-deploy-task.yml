@@ -11,7 +11,8 @@ inputs:
   - name: release
   - name: docker-image
   - name: source-code
-
+outputs:
+  - name: pks-build
 run:
   path: /bin/bash
   args:
