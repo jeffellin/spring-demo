@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WebDemoApplication {
 
 	/**
-	 * Hello world spring app
+	 * Hello world spring app.
 	 * @param args
 	 */
 	public static void main(String[] args) {
