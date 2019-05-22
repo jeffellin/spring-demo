@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: spring-demo
   labels:
-    version: "{VERSION}"
+    version: "1.2"
     app: spring-demo
 spec:
   containers:

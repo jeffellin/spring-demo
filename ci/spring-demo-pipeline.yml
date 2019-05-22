@@ -1,4 +1,18 @@
+resource_types:
+- name: kubernetes
+  type: docker-image
+  source:
+    repository: harbor.ellin.net/library/kubernetes-resource
+    tag: "latest"
 resources:
+- name: kubernetes-production
+  type: kubernetes
+  source:
+    pks_server: ((PKS_ENDPOINT))
+    pks_user: ((PKS_USER)
+    pks_password: ((PKS_PASSWORD))
+    pks_cluster: ((PKS_CLUSTER))
+    namespace: production
 - name: release
   type: s3
   source:
@@ -81,10 +95,7 @@ jobs:
         trigger: true
       - get: release
       - get: source-code
-      - task: push-to-pks
-        file: source-code/ci/tasks/pks-deploy-task.yml
-        vars:
-          PKS_USER: ((PKS_USER))
-          PKS_PASSWORD: ((PKS_PASSWORD))
-          PKS_ENDPOINT: ((PKS_ENDPOINT))
-          PKS_CLUSTER: ((PKS_CLUSTER))
+      - put: kubernetes-production
+      params:
+      kubectl: apply -f source-code/kubernetes/spring-demo-pod.yml
+      wait_until_ready_selector: app=spring-demo
