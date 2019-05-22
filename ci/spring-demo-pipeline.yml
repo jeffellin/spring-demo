@@ -2,14 +2,16 @@ resource_types:
 - name: kubernetes
   type: docker-image
   source:
-    repository: harbor.ellin.net/library/kubernetes-resource
+    repository: harbor.ellin.net:443/library/kubernetes-resource
     tag: "latest"
+    insecure_registries:
+    - harbor.ellin.net:443
 resources:
 - name: kubernetes-production
   type: kubernetes
   source:
-    pks_server: ((PKS_ENDPOINT))
-    pks_user: ((PKS_USER)
+    pks_endpoint: ((PKS_ENDPOINT))
+    pks_user: ((PKS_USER))
     pks_password: ((PKS_PASSWORD))
     pks_cluster: ((PKS_CLUSTER))
     namespace: production
@@ -95,7 +97,9 @@ jobs:
         trigger: true
       - get: release
       - get: source-code
+      - task: update-deployment
+        file: source-code/ci/tasks/push-pks.sh
       - put: kubernetes-production
-      params:
-      kubectl: apply -f source-code/kubernetes/spring-demo-pod.yml
-      wait_until_ready_selector: app=spring-demo
+        params:
+          kubectl: apply -f release/spring-demo-modified.yml
+          wait_until_ready_selector: app=spring-demo

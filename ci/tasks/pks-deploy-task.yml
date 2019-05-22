@@ -12,13 +12,6 @@ inputs:
   - name: docker-image
   - name: source-code
 
-  
-params:
-  PKS_USER: ((PKS_USER))
-  PKS_PASSWORD: ((PKS_PASSWORD))
-  PKS_ENDPOINT: ((PKS_ENDPOINT))
-  PKS_CLUSTER: ((PKS_CLUSTER))
-
 run:
   path: /bin/bash
   args:
