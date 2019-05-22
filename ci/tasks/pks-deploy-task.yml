@@ -31,4 +31,6 @@ run:
       pks login -a ${PKS_ENDPOINT} -u ${PKS_USER} -p ${PKS_PASSWORD} -k
       pks get-credentials ${PKS_CLUSTER}
       kubectl get pods
-      kubectl apply -f spring-demo-pod.yml
+      template=`cat "spring-demo-pod.yml" | sed "s/{{VERSION}}/$VERSION/g"`
+      # apply the yml with the substituted value
+      echo "$template" | kubectl apply -f -

@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: spring-demo
+  labels:
+    version: {{VERSION}}
 spec:
   containers:
     - image: harbor.ellin.net/library/spring-demo
