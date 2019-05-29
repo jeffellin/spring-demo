@@ -1,18 +1,4 @@
-resource_types:
-- name: kubernetes
-  type: docker-image
-  source:
-    repository: ellinj/pks-resource
-    tag: "latest"
 resources:
-- name: kubernetes-production
-  type: kubernetes
-  source:
-    pks_endpoint: ((PKS_ENDPOINT))
-    pks_user: ((PKS_USER))
-    pks_password: ((PKS_PASSWORD))
-    pks_cluster: ((PKS_CLUSTER))
-    namespace: production
 - name: release
   type: s3
   source:
@@ -107,4 +93,13 @@ jobs:
       - get: source-code
       - task: update-deployment
         file: source-code/ci/tasks/pks-deploy-task.yml
+        params:
+          HELM_USER: ((HELM_USER))
+          HELM_PASSWORD: ((HELM_PASSWORD))
+          HELM_CA_PATH: ((HELM_CA_PATH))
+          HELM_URL: ((HELM_URL))
+          PKS_ENDPOINT: ((PKS_ENDPOINT))
+          PKS_USER: ((PKS_USER))
+          PKS_PASSWORD: ((PKS_PASSWORD))
+          PKS_CLUSTER: ((PKS_CLUSTER))
      
