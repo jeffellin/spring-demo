@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: {{.Release.Name}}-spring-demo
   labels:
-    version: {{.Release.Version}}
+    version: {{.Chart.Version}}
     app: spring-demo
     release: {{.Release.Name}}
 spec:
@@ -21,7 +21,7 @@ metadata:
   name: {{.Release.Name}}-spring-demo-service
   labels:
     app: spring-demo
-    version: {{.Release.Version}}
+    version: {{.Chart.Version}}
     release: {{.Release.Name}}
     
 spec:
@@ -31,5 +31,5 @@ spec:
     protocol: TCP
   selector:
     app: spring-demo  
-    version: {{.Release.Version}}
+    version: {{.Chart.Version}}
     release: {{.Release.Name}}
