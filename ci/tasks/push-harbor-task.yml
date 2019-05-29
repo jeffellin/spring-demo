@@ -9,6 +9,12 @@ image_resource:
       - harbor.ellin.net:443
     tag: latest
 
+vars:
+  HELM_USER: ((HELM_USER))
+  HELM_PASSWORD: ((HELM_PASSWORD))
+  HELM_CA_PATH: ((HELM_CA_PATH))
+  HELM_URL: ((HELM_URL))
+
 inputs:
   #- name: release
   #- name: docker-image
