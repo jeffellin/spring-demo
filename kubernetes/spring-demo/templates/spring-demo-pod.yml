@@ -3,12 +3,12 @@ kind: Pod
 metadata:
   name: {{.Release.Name}}-spring-demo
   labels:
-    version: "0.1"
+    version: {{.Release.Version}}
     app: spring-demo
     release: {{.Release.Name}}
 spec:
   containers:
-    - image: harbor.ellin.net/library/spring-demo
+    - image: harbor.ellin.net/library/spring-demo:{{.Release.Version}}
       name: spring-demo
       ports:
         - containerPort: 8080
@@ -21,8 +21,9 @@ metadata:
   name: {{.Release.Name}}-spring-demo-service
   labels:
     app: spring-demo
-    version: "0.1"
+    version: {{.Release.Version}}
     release: {{.Release.Name}}
+    
 spec:
   type: NodePort
   ports:
@@ -30,5 +31,5 @@ spec:
     protocol: TCP
   selector:
     app: spring-demo  
-    version: "0.1"
+    version: {{.Release.Version}}
     release: {{.Release.Name}}
