@@ -1,4 +1,5 @@
 #!/bin/bash
+ls
 
 VERSION=$(cat version/version)
 
