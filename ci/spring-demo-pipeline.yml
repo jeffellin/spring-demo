@@ -107,7 +107,4 @@ jobs:
       - get: source-code
       - task: update-deployment
         file: source-code/ci/tasks/pks-deploy-task.yml
-      - put: kubernetes-production
-        params:
-          kubectl: apply -f pks-build/spring-demo-modified.yml
-          wait_until_ready_selector: app=spring-demo
+     
