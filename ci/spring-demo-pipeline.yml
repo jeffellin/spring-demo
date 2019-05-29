@@ -93,11 +93,11 @@ jobs:
       - get: source-code
       - task: push-to-harbor
         file: source-code/ci/tasks/push-harbor-task.yml
-        vars:
-          HELM_USER: ((PKS_USER))
-          HELM_PASSWORD: ((PKS_PASSWORD))
-          HELM_CA_PATH: ((PKS_ENDPOINT))
-          HELM_URL: ((PKS_CLUSTER))
+        params:
+          HELM_USER: ((HELM_USER))
+          HELM_PASSWORD: ((HELM_PASSWORD))
+          HELM_CA_PATH: ((HELM_CA_PATH))
+          HELM_URL: ((HELM_URL))
   - name: push-to-pks
     plan:
       - get: docker-image
