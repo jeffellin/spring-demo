@@ -1,10 +1,10 @@
 #!/bin/bash
 
-VERSION=$(cat release/version)
+VERSION=$(cat version/version)
 
 set -x
 
-sed 's/^\(\s*version\s*: \s*\).*/\1${VERSION}/' source-code/kubernetes/spring-demo/Chart.yaml 
+sed  -i 's/^\(\s*version\s*: \s*\).*/\1${VERSION}/' source-code/kubernetes/spring-demo/Chart.yaml 
 
 cat source-code/kubernetes/spring-demo/Chart.yaml 
 helm init --client-only
