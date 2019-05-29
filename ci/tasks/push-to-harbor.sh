@@ -11,7 +11,7 @@ set -ex
 
 helm init --client-only
 helm repo add harbor https://harbor.ellin.net/chartrepo/library  --ca-file source-code/kubernetes/harbor.pem --username jeff --password 'Pivotal!23'
-helm push source-code/kubernetes/spring-demo harbor --ca-file harbor.pem --username jeff --password 'Pivotal!23'
+helm push source-code/kubernetes/spring-demo harbor --ca-file --ca-file source-code/kubernetes/harbor.pem  --username jeff --password 'Pivotal!23'
 
 # pks login -a ${PKS_ENDPOINT} -u ${PKS_USER} -p ${PKS_PASSWORD} -k
 # pks get-credentials ${PKS_CLUSTER}
