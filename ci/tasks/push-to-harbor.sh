@@ -2,9 +2,11 @@
 
 VERSION=$(cat release/version)
 
+set -x
+
 sed 's/^\(\s*version\s*: \s*\).*/\1${VERSION}/' source-code/kubernetes/spring-demo/Chart.yaml 
 
-
+cat source-code/kubernetes/spring-demo/Chart.yaml 
 helm init --client-only
 helm repo add harbor  ${HELM_URL} --ca-file ${HELM_CA_PATH} --username ${HELM_USER} --password ${HELM_PASSWORD}
 helm push source-code/kubernetes/spring-demo harbor --ca-file source-code/kubernetes/harbor.pem  --username jeff --password 'Pivotal!23'
