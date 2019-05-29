@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: harbor.ellin.net:443/library/kubernetes-resource
+    insecure_registries:
+      - harbor.ellin.net:443
+    tag: latest
+
+inputs:
+  #- name: release
+  #- name: docker-image
+  - name: source-code
+outputs:
+  #- name: pks-build
+run:
+  path: /bin/bash
+  args:
+    - source-code/ci/tasks/push-to-harbor.sh

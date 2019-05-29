@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: spring-demo
   labels:
-    version: "{VERSION}"
+    version: "0.1"
     app: spring-demo
 spec:
   containers:
@@ -20,7 +20,7 @@ metadata:
   name: spring-demo-service
   labels:
     app: spring-demo
-    version: "{VERSION}"
+    version: "0.1"
 spec:
   type: NodePort
   ports:
