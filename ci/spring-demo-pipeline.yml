@@ -89,7 +89,6 @@ jobs:
       - get: docker-image
         passed: [deploy-image]
         trigger: true
-      - get: release
       - get: source-code
       - task: update-deployment
         file: source-code/ci/tasks/pks-deploy-task.yml
