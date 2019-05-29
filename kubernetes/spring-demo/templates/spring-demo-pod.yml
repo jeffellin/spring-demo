@@ -8,12 +8,12 @@ metadata:
     release: {{.Release.Name}}
 spec:
   containers:
-    - image: harbor.ellin.net/library/spring-demo:{{.Release.Version}}
-      name: spring-demo
-      ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
+  - image: harbor.ellin.net/library/spring-demo:{{.Chart.Version}}
+    name: spring-demo
+    ports:
+      - containerPort: 8080
+        name: http
+        protocol: TCP
 ---
 apiVersion: v1
 kind: Service
