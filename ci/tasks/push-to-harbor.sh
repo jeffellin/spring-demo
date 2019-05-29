@@ -1,13 +1,5 @@
 #!/bin/bash
-set -x
-ls -la version 
-
-VERSION=$(cat version/version)
-
-
-
-sed  -i 's/^\(\s*version\s*: \s*\).*/\1$VERSION/' source-code/kubernetes/spring-demo/Chart.yaml 
-
+sed  -i 's/^\(\s*version\s*: \s*\).*/\1'"${VERSION}"'/' source-code/kubernetes/spring-demo/Chart.yaml 
 cat source-code/kubernetes/spring-demo/Chart.yaml 
 helm init --client-only
 helm repo add harbor  ${HELM_URL} --ca-file ${HELM_CA_PATH} --username ${HELM_USER} --password ${HELM_PASSWORD}
