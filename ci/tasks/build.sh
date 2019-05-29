@@ -22,7 +22,7 @@ popd
 
 mkdir packed-release/target
 cp source-code/docker/Dockerfile packed-release/target/
-cp source-code/kubernetes/*.yml packed-release/target/
+cp source-code/kubernetes/*.yml packed-release/target/  || :
 cp source-code/target/web-demo-${VERSION}.jar packed-release/target/
 tar zcvf packed-release/release-${VERSION}.tgz -C packed-release/target .
 ls packed-release
