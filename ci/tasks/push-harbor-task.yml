@@ -17,7 +17,6 @@ params:
 
 inputs:
   - name: release
-  - name: docker-image
   - name: source-code
 outputs:
   #- name: pks-build
