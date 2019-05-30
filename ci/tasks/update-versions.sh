@@ -13,3 +13,4 @@ git config --global user.name "Concourse"
 cd config-updated
 git add .
 git diff-index --quiet HEAD || git commit -m "update version by ci"
+git push
