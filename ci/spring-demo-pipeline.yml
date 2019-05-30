@@ -76,11 +76,10 @@ jobs:
           tag_as_latest: true
   - name: push-to-pks
     plan:
-      - get: docker-image
-        passed: [deploy-image]
-        trigger: true
       - get: source-code
       - get: release
+        trigger: true
+        passed: [deploy-image]
       - task: push-to-harbor
         file: source-code/ci/tasks/push-harbor-task.yml
         params:
