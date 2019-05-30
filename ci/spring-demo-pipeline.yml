@@ -80,6 +80,7 @@ jobs:
         passed: [deploy-image]
         trigger: true
       - get: source-code
+      - get: release
       - task: push-to-harbor
         file: source-code/ci/tasks/push-harbor-task.yml
         params:
