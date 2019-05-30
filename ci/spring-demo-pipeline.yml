@@ -69,24 +69,18 @@ jobs:
                 VERSION=$(cat release/version)
                 tar xvf release/release-${VERSION}.tgz -C docker-build
                 mv docker-build/web-demo-${VERSION}.jar docker-build/web-demo.jar
-      - put: docker-image
-        params:
-          build: docker-build
-          tag_file: release/version
-          tag_as_latest: true
-  - name: deploy-helmchart
-    plan:
-      - get: version
-        passed: [build-project]
-        trigger: true
-      - get: source-code
-      - task: push-to-harbor
+        - task: push-to-harbor
         file: source-code/ci/tasks/push-harbor-task.yml
         params:
           HELM_USER: ((HELM_USER))
           HELM_PASSWORD: ((HELM_PASSWORD))
           HELM_CA_PATH: ((HELM_CA_PATH))
           HELM_URL: ((HELM_URL))
+      - put: docker-image
+        params:
+          build: docker-build
+          tag_file: release/version
+          tag_as_latest: true
   - name: push-to-pks
     plan:
       - get: docker-image

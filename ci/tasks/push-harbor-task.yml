@@ -16,7 +16,7 @@ params:
   HELM_URL: ((HELM_URL))
 
 inputs:
-  - name: version
+  - name: release
   #- name: docker-image
   - name: source-code
 outputs:
