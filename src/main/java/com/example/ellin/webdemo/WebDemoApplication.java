@@ -11,7 +11,14 @@ public class WebDemoApplication {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(WebDemoApplication.class, args);
+
+
+
+		SpringApplication springApplication = new SpringApplication(WebDemoApplication.class);
+		springApplication.addListeners(new PropertiesLogger());
+		springApplication.run(args);
+
+
 	}
 
 }
