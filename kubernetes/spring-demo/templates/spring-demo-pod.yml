@@ -8,8 +8,20 @@ metadata:
     release: {{.Release.Name}}
 spec:
   containers:
-  - image: harbor.ellin.net/library/spring-demo:{{.Chart.Version}}
+  - image: harbor.ellin.net/library/spring-demo:mysql
+    imagePullPolicy: Always
     name: spring-demo
+    env:
+    - name: SPRING_DATASOURCE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: mysql-creds
+          key: username
+    - name: SPRING_DATASOURCE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mysql-creds
+          key: password
     ports:
       - containerPort: 8080
         name: http
