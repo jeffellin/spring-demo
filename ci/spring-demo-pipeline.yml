@@ -91,12 +91,15 @@ jobs:
       - get: docker-image
         passed: [deploy-image]
         trigger: true
+      - get: release
+        passed: [deploy-image]
       - get: config
       - task: push-to-docker
         config:
           inputs:
           - name: config
           - name: docker-image
+          - name: release
           outputs:
           - name: config-updated
           platform: linux
@@ -104,22 +107,9 @@ jobs:
             type: docker-image
             source: {repository: alpine/git}
           run:
-            path: sh
-            args: 
-              - -exc
-              - |
-                ls
-                VERSION=$(cat docker-image/tag)
-                cp -R config/* config-updated
-                cp -R config/.git config-updated
-
-                sed  -i 's/^\(\s*spring-demo-image\s*: \s*\).*/\1'"${VERSION}"'/' config-updated/values.yml
-                cat config-updated/values.yml
-                git config --global user.email "nobody@concourse-ci.org"
-                git config --global user.name "Concourse"
-                cd config-updated
-                git add .
-                git commit -m "update version by ci"
+            path: /bin/bash
+            args:
+            - source-code/ci/tasks/update-versions  .sh
       - put: config-updated
         params: {repository: config-updated}
   #     - task: update-deployment

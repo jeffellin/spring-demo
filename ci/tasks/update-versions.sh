@@ -1,0 +1,15 @@
+#!/bin/sh
+set -exc
+
+ls
+VERSION=$(cat release/version)
+cp -R config/* config-updated
+cp -R config/.git config-updated
+
+sed  -i 's/^\(\s*spring-demo-image\s*: \s*\).*/\1'"${VERSION}"'/' config-updated/values.yml
+cat config-updated/values.yml
+git config --global user.email "nobody@concourse-ci.org"
+git config --global user.name "Concourse"
+cd config-updated
+git add .
+git diff-index --quiet HEAD || git commit -m "update version by ci"
