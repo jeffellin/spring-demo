@@ -16,8 +16,7 @@ params:
   HELM_URL: ((HELM_URL))
 
 inputs:
-  - name: release
-  #- name: docker-image
+  - name: docker-image
   - name: source-code
 outputs:
   #- name: pks-build

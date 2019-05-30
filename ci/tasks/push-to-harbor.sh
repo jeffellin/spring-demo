@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-VERSION=$(cat release/version)
+VERSION=$(cat docker-image/version)
 
 sed  -i 's/^\(\s*version\s*: \s*\).*/\1'"${VERSION}"'/' source-code/kubernetes/spring-demo/Chart.yaml 
 

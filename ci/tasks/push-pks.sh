@@ -2,7 +2,7 @@
 
 echo "hello world"
 
-VERSION=$(cat release/version)
+VERSION=$(cat docker-image/version)
 set -ex
 pks login -a ${PKS_ENDPOINT} -u ${PKS_USER} -p ${PKS_PASSWORD} -k
 pks get-credentials ${PKS_CLUSTER}
