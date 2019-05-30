@@ -107,9 +107,9 @@ jobs:
             type: docker-image
             source: {repository: alpine/git}
           run:
-            path: /bin/bash
+            path: /bin/sh
             args:
-            - source-code/ci/tasks/update-versions  .sh
+            - source-code/ci/tasks/update-versions.sh
       - put: config-updated
         params: {repository: config-updated}
   #     - task: update-deployment
