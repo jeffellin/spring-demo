@@ -19,7 +19,19 @@ resources:
   type: git
   source:
     uri: git@github.com:jeffellin/spring-demo.git
-    branch: helm
+    branch: working-demo
+    private_key: ((private_key))
+- name: config
+  type: git
+  source:
+    uri: git@github.com:jeffellin/spring-demo-helm.git
+    branch: dev
+    private_key: ((private_key))
+- name: config-updated
+  type: git
+  source:
+    uri: git@github.com:jeffellin/spring-demo-helm.git
+    branch: dev
     private_key: ((private_key))
 - name: docker-image
   type: docker-image
@@ -73,29 +85,52 @@ jobs:
         params:
           build: docker-build
           tag_file: release/version
-          tag_as_latest: true
-  - name: push-to-pks
+          tag_as_latest: false
+  - name: update-dev-config
     plan:
-      - get: source-code
-      - get: release
-        trigger: true
+      - get: docker-image
         passed: [deploy-image]
-      - task: push-to-harbor
-        file: source-code/ci/tasks/push-harbor-task.yml
-        params:
-          HELM_USER: ((HELM_USER))
-          HELM_PASSWORD: ((HELM_PASSWORD))
-          HELM_CA_PATH: ((HELM_CA_PATH))
-          HELM_URL: ((HELM_URL))
-      - task: update-deployment
-        file: source-code/ci/tasks/pks-deploy-task.yml
-        params:
-          HELM_USER: ((HELM_USER))
-          HELM_PASSWORD: ((HELM_PASSWORD))
-          HELM_CA_PATH: ((HELM_CA_PATH))
-          HELM_URL: ((HELM_URL))
-          PKS_ENDPOINT: ((PKS_ENDPOINT))
-          PKS_USER: ((PKS_USER))
-          PKS_PASSWORD: ((PKS_PASSWORD))
-          PKS_CLUSTER: ((PKS_CLUSTER))
+        trigger: true
+      - get: config
+      - task: push-to-docker
+        config:
+          inputs:
+          - name: config
+          - name: docker-image
+          outputs:
+          - name: config-updated
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: alpine/git}
+          run:
+            path: sh
+            args: 
+              - -exc
+              - |
+                ls
+                VERSION=$(cat docker-image/tag)
+                cp -R config/* config-updated
+                cp -R config/.git config-updated
+
+                sed  -i 's/^\(\s*spring-demo-image\s*: \s*\).*/\1'"${VERSION}"'/' config-updated/values.yml
+                cat config-updated/values.yml
+                git config --global user.email "nobody@concourse-ci.org"
+                git config --global user.name "Concourse"
+                cd config-updated
+                git add .
+                git commit -m "update version by ci"
+      - put: config-updated
+        params: {repository: config-updated}
+  #     - task: update-deployment
+  #       file: source-code/ci/tasks/pks-deploy-task.yml
+  #       params:
+  #         HELM_USER: ((HELM_USER))
+  #         HELM_PASSWORD: ((HELM_PASSWORD))
+  #         HELM_CA_PATH: ((HELM_CA_PATH))
+  #         HELM_URL: ((HELM_URL))
+  #         PKS_ENDPOINT: ((PKS_ENDPOINT))
+  #         PKS_USER: ((PKS_USER))
+  #         PKS_PASSWORD: ((PKS_PASSWORD))
+  #         PKS_CLUSTER: ((PKS_CLUSTER))
      
