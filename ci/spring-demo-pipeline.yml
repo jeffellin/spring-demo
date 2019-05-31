@@ -88,18 +88,15 @@ jobs:
           tag_as_latest: false
   - name: update-dev-config
     plan:
-      - get: docker-image
-        passed: [deploy-image]
-        trigger: true
       - get: release
         passed: [deploy-image]
+        trigger: true
       - get: config
       - get: source-code
-      - task: push-to-docker
+      - task: push-versions-git
         config:
           inputs:
           - name: config
-          - name: docker-image
           - name: release
           - name: source-code
           outputs:
