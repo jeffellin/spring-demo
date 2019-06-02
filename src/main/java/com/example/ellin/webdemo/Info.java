@@ -13,5 +13,7 @@ public class Info {
 
     private String ip;
     private String hostname;
+    private String phrase;
+
 
 }
