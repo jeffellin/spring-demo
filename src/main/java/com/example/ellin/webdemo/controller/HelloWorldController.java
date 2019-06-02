@@ -13,7 +13,7 @@ public class HelloWorldController {
     @Autowired
     HelloRepository helloRepository;
 
-    @GetMapping("/")
+    @GetMapping("/hello")
     public String sayHello(){
         return helloRepository.findById("hello").orElse(new Hello()).getPhrase();
     }
