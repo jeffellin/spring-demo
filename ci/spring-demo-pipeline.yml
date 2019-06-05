@@ -85,7 +85,9 @@ jobs:
         params:
           build: docker-build
           tag_file: release/version
-          tag_as_latest: false
+          tag_as_latest: true
+          labels:
+            version: snapshot
   - name: update-dev-config
     plan:
       - get: release
