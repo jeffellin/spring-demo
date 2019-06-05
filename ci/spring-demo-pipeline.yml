@@ -19,7 +19,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jeffellin/spring-demo.git
-    branch: deployment
+    branch: deployment-two
     private_key: ((private_key))
 - name: config
   type: git
