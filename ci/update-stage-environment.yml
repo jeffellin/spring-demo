@@ -1,0 +1,71 @@
+resources:
+- name: gh-release
+  type: github-release
+  source:
+    user: jeffellin
+    repository: spring-demo
+    access_token: 10722067d43815233e78adf4bebb5ace8442de19    
+- name: docker-image
+  type: docker-image
+  source:
+    repository: harbor.ellin.net:443/library/spring-demo
+    username: jeff
+    password: ((harbor.password))
+    insecure_registries:
+      - harbor.ellin.net:443
+# - name: config
+#   type: git
+#   source:
+#     uri: git@github.com:jeffellin/spring-demo-helm.git
+#     branch: stage
+#     private_key: ((private_key))
+# - name: helm-chart
+#   type: git
+#   source:
+#     uri: git@github.com:jeffellin/spring-demo-helm.git
+#     branch: master
+#     private_key: ((private_key))
+# - name: version
+#   type: semver
+#   source:
+#     initial_version: "1.0.0"
+#     driver: git
+#     uri: git@github.com:jeffellin/spring-demo.git
+#     branch: version 
+#     file: version
+#     private_key: ((private_key))
+#     git_user: concourse@example.com
+#     commit_message: "[ci skip] Update version to %version%"
+jobs:
+  - name: tag-release
+    plan:
+      - get: gh-release
+        trigger: true
+      - task: view-contents
+        config:
+          inputs:
+          - name: gh-release
+          outputs:
+          - name: docker-build
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: boycey/alpine-aws-cli}
+          run:
+            path: sh
+            args: 
+              - -exc
+              - |
+                SHA=$(cat gh-release/commit_sha)
+                SHA=${SHA:0:6}
+                export AWS_ACCESS_KEY_ID=minio
+                export AWS_SECRET_ACCESS_KEY=minio123
+                aws configure set default.s3.signature_version s3v4
+                aws --endpoint-url http://minio.ellin.net s3 ls
+                aws --endpoint-url http://minio.ellin.net s3 cp s3://releases/release-${SHA}.tgz .
+                tar xvf release-${SHA}.tgz -C docker-build
+                mv docker-build/web-demo-${SHA}.jar docker-build/web-demo.jar   
+      - put: docker-image
+        params:
+          build: docker-build
+          tag_file: gh-release/tag

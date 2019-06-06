@@ -7,14 +7,12 @@ resources:
     secret_access_key: ((minio.password))
     endpoint: http://minio.ellin.net
     regexp: release-(.*).tgz
-# - name: version
-#   type: semver
-#   source:
-#     driver: git
-#     uri: git@github.com:jeffellin/spring-demo.git
-#     branch: version
-#     file: version
-#     private_key: ((private_key))
+- name: gh-release
+  type: github-release
+  source:
+    user: jeffellin
+    repository: spring-demo
+    access_token: ((git.access-token))    
 - name: source-code
   type: git
   source:
@@ -124,4 +122,45 @@ jobs:
   #         PKS_USER: ((PKS_USER))
   #         PKS_PASSWORD: ((PKS_PASSWORD))
   #         PKS_CLUSTER: ((PKS_CLUSTER))
-     
+  - name: tag-release
+    plan:
+      - get: gh-release
+        trigger: true
+      - task: view-contents
+        params:
+          AWS_ACCESS_KEY_ID: ((minio.user))
+          AWS_SECRET_ACCESS_KEY: ((minio.password))
+          S3_ENDPOINT: http://minio.ellin.net
+          S3_BUCKET: releases
+          S3_SIGNATURE: s3v4
+        config:
+          inputs:
+          - name: gh-release
+          outputs:
+          - name: docker-build
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: boycey/alpine-aws-cli}
+          params:
+             AWS_ACCESS_KEY_ID:
+             AWS_SECRET_ACCESS_KEY:
+             S3_ENDPOINT:
+             S3_BUCKET:
+             S3_SIGNATURE: 
+          run:
+            path: sh
+            args: 
+              - -exc
+              - |
+                SHA=$(cat gh-release/commit_sha)
+                SHA=${SHA:0:6}
+                aws configure set default.s3.signature_version ${S3_SIGNATURE}
+                aws --endpoint-url ${S3_ENDPOINT} s3 ls
+                aws --endpoint-url ${S3_ENDPOINT} s3 cp s3://${S3_BUCKET}/release-${SHA}.tgz .
+                tar xvf release-${SHA}.tgz -C docker-build
+                mv docker-build/web-demo-${SHA}.jar docker-build/web-demo.jar   
+      - put: docker-image
+        params:
+          build: docker-build
+          tag_file: gh-release/tag     
