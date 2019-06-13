@@ -13,18 +13,3 @@ spec:
         - containerPort: 8080
           name: http
           protocol: TCP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: spring-demo-service
-  labels:
-    app: spring-demo
-    version: "{VERSION}"
-spec:
-  type: NodePort
-  ports:
-  - port: 8080
-    protocol: TCP
-  selector:
-    app: spring-demo  
