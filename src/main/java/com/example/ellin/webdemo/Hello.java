@@ -18,7 +18,7 @@ public class Hello {
     }
 
     public void setPhrase(String phrase) {
-        this.phrase = phrase;
+        this.phrase = phrase + ":v2";
     }
 
     public String getHello() {
