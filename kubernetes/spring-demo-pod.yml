@@ -9,6 +9,7 @@ spec:
   containers:
     - image: ellinj/spring-demo
       name: spring-demo
+      imagePullPolicy: Always
       ports:
         - containerPort: 8080
           name: http
