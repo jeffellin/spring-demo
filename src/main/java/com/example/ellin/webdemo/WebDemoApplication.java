@@ -19,7 +19,7 @@ public class WebDemoApplication {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SpringApplication.run(WebDemoApplication.class, args);
 	}
 
@@ -27,23 +27,28 @@ public class WebDemoApplication {
 	@Timed
 	public class RestDemo {
 
-		private Log log = LogFactory.getLog(getClass());
+		private final Log log = LogFactory.getLog(getClass());
 
 		@Autowired
 		MeterRegistry registry;
 
 		@GetMapping("/")
 		@Timed(value = "hello.time")
-		public String sayHello() throws InterruptedException {
+		public Map<String,String> sayHello() throws InterruptedException {
 
-			Counter counter = registry.counter("hello.count");
+			final Map<String,String> results = new HashMap<>();
+			final Counter counter = registry.counter("hello.count");
 			counter.increment();
 
-			Random rn = new Random();
-			int answer = rn.nextInt(5) + 1;
+			final Random rn = new Random();
+			final int answer = rn.nextInt(5) + 1;
 
 			Thread.sleep(answer * 1000);
-			return "hello world:" + answer;
+
+			results.put("string","helloworld");
+			results.put("color","yellow");
+			results.put("counter", Integer.toString(answer));
+			return results;
 
 		}
 
