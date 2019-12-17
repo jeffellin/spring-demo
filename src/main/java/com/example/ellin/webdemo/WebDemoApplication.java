@@ -33,7 +33,6 @@ public class WebDemoApplication {
 		MeterRegistry registry;
 
 		@GetMapping("/")
-		@Timed(value = "hello.time")
 		public Map<String,String> sayHello() throws InterruptedException {
 
 			final Map<String,String> results = new HashMap<>();
@@ -46,6 +45,28 @@ public class WebDemoApplication {
 			Thread.sleep(answer * 1000);
 
 			results.put("string","helloworld");
+			results.put("color","yellow");
+			results.put("counter", Integer.toString(answer));
+			return results;
+
+
+			
+		}
+
+
+		@GetMapping("/hi")
+		public Map<String,String> sayHi() throws InterruptedException {
+
+			final Map<String,String> results = new HashMap<>();
+			final Counter counter = registry.counter("hello.count");
+			counter.increment();
+
+			final Random rn = new Random();
+			final int answer = rn.nextInt(5) + 1;
+
+			Thread.sleep(answer * 1000);
+
+			results.put("string","hi");
 			results.put("color","yellow");
 			results.put("counter", Integer.toString(answer));
 			return results;

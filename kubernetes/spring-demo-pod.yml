@@ -1,16 +1,23 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: spring-demo
+  name: spring-demo-deployment
   labels:
-    version: "ok23"
     app: spring-demo
 spec:
-  containers:
-    - image: ellinj/spring-demo:latest
-      name: spring-demo
-      imagePullPolicy: Always
-      ports:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-demo
+  template:
+    metadata:
+      labels:
+        app: spring-demo
+    spec:
+      containers:
+      - name: spring-demo
+        image: ellinj/spring-demo:latest
+        ports:
         - containerPort: 8080
           name: http
           protocol: TCP
