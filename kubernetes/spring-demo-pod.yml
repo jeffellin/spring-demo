@@ -7,7 +7,7 @@ metadata:
     app: spring-demo
 spec:
   containers:
-    - image: ellinj/spring-demo
+    - image: ellinj/spring-demo:latest
       name: spring-demo
       imagePullPolicy: Always
       ports:
