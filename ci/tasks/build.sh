@@ -14,11 +14,11 @@ source ${SCRIPT_DIR}/mvn-tools.sh
 generate_settings
 ls
 
-pushd source-code
-    set_revision_to_pom ${VERSION}
-    ls
-	mvn clean package -DskipTests
-popd
+#pushd source-code
+#    set_revision_to_pom ${VERSION}
+#    ls
+#	mvn clean package -DskipTests
+#popd
 
 mkdir packed-release/target
 cp source-code/docker/Dockerfile packed-release/target/
