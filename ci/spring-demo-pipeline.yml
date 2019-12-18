@@ -1,26 +1,4 @@
-resource_types:
-- name: kubernetes
-  type: docker-image
-  source:
-    repository: ellinj/pks-resource
-    tag: "latest"
 resources:
-- name: kubernetes-production
-  type: kubernetes
-  source:
-    pks_endpoint: ((PKS_ENDPOINT))
-    pks_user: ((PKS_USER))
-    pks_password: ((PKS_PASSWORD))
-    pks_cluster: ((PKS_CLUSTER))
-    namespace: production
-- name: release
-  type: s3
-  source:
-    bucket: releases
-    access_key_id: ((minio.user))
-    secret_access_key: ((minio.password))
-    endpoint: http://minio.ellin.net
-    regexp: release-(.*).tgz
 - name: version
   type: semver
   source:
@@ -38,11 +16,9 @@ resources:
 - name: docker-image
   type: docker-image
   source:
-    repository: harbor.ellin.net:443/library/spring-demo
-    username: jeff
-    password: ((harbor.password))
-    insecure_registries:
-      - harbor.ellin.net:443
+    repository: ellinj/spring-demo
+    username: ((docker.email))
+    password: ((docker.password))
 jobs:
   - name: build-project
     serial: true
@@ -53,51 +29,10 @@ jobs:
         params: {bump: minor}
       - task: build-project
         file: source-code/ci/tasks/maven-build-task.yml
-      - put: release
-        params:
-          file: packed-release/release-*.tgz
       - put: version
         params: {file: version/version}
-  - name: deploy-image
-    plan:
-      - get: release
-        passed: [build-project]
-        trigger: true
-      - task: push-to-docker
-        config:
-          inputs:
-          - name: release
-          outputs:
-          - name: docker-build
-          platform: linux
-          image_resource:
-            type: docker-image
-            source: {repository: busybox}
-          run:
-            path: sh
-            args: 
-              - -exc
-              - |
-                ls
-                ls release
-                VERSION=$(cat release/version)
-                tar xvf release/release-${VERSION}.tgz -C docker-build
-                mv docker-build/web-demo-${VERSION}.jar docker-build/web-demo.jar
       - put: docker-image
         params:
-          build: docker-build
-          tag_file: release/version
+          build: packed-release/target
+          tag_file: version/version
           tag_as_latest: true
-  - name: push-to-pks
-    plan:
-      - get: docker-image
-        passed: [deploy-image]
-        trigger: true
-      - get: release
-      - get: source-code
-      - task: update-deployment
-        file: source-code/ci/tasks/pks-deploy-task.yml
-      - put: kubernetes-production
-        params:
-          kubectl: apply -f pks-build/spring-demo-modified.yml
-          wait_until_ready_selector: app=spring-demo
