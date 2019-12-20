@@ -36,7 +36,7 @@ jobs:
         params: {bump: minor}
       - task: build-project
         file: source-code/ci/tasks/maven-build-task.yml
-      - task: simpletask
+      - task: bump-kustomization
         config:
           platform: linux
           image_resource:

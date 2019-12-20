@@ -46,6 +46,7 @@ public class WebDemoApplication {
 
 			results.put("string","helloworld");
 			results.put("color","yellow");
+			results.put("version","two");
 			results.put("counter", Integer.toString(answer));
 			return results;
 
