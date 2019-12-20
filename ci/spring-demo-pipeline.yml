@@ -13,6 +13,12 @@ resources:
     uri: git@github.com:jeffellin/spring-demo.git
     branch: master
     private_key: ((private_key))
+- name: source-code-gitops
+  type: git
+  source:
+    uri: git@github.com:jeffellin/spring-demo-gitops.git
+    branch: master
+    private_key: ((private_key))
 - name: docker-image
   type: docker-image
   source:
@@ -25,6 +31,7 @@ jobs:
     plan:
       - get: source-code
         trigger: true
+      - get: source-code-gitops
       - get: version
         params: {bump: minor}
       - task: build-project
