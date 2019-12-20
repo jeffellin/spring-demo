@@ -19,12 +19,6 @@ resources:
     uri: git@github.com:jeffellin/spring-demo-gitops.git
     branch: master
     private_key: ((private_key))    
-- name: gitops
-  type: git
-  source:
-    uri: git@github.com:jeffellin/spring-demo-gitops.git
-    branch: master
-    private_key: ((private_key))
 - name: docker-image
   type: docker-image
   source:
@@ -44,7 +38,7 @@ jobs:
         file: source-code/ci/tasks/maven-build-task.yml
       - put: version
         params: {file: version/version}
-      - put: source-code-gitops
+      - put: source-code-gitops 
         params: 
           repository: gitops
       - put: docker-image
