@@ -38,6 +38,7 @@ jobs:
         file: source-code/ci/tasks/maven-build-task.yml
       - put: version
         params: {file: version/version}
+      - put: source-code-gitops
       - put: docker-image
         params:
           build: packed-release/target
