@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: spring-demo
-        image: ellinj/spring-demo:0.84.0
+        image: ellinj/spring-demo:0.86.0
         ports:
         - containerPort: 8080
           name: http
