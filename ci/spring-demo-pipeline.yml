@@ -36,6 +36,28 @@ jobs:
         params: {bump: minor}
       - task: build-project
         file: source-code/ci/tasks/maven-build-task.yml
+      - task: simpletask
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: alpine/git
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                ls -la
+                VERSION=$(cat version/version)
+                cp -r source-code-gitops/. gitops
+                sed -r  "s/^(\s*)(newTag\s*:.*$)/\1newTag: \"${VERSION}\"/" gitops/kubernetes/kustomization.yaml
+                sed -r -i "s/^(\s*)(newTag\s*:.*$)/\1newTag: \"${VERSION}\"/" gitops/kubernetes/kustomization.yaml
+          inputs:
+          - name: source-code-gitops
+          - name: version
+          outputs:
+          - name: gitops
       - put: version
         params: {file: version/version}
       - put: source-code-gitops 
