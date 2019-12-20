@@ -24,5 +24,5 @@ mkdir packed-release/target
 cp source-code/docker/Dockerfile packed-release/target/
 # cp source-code/kubernetes/*.yml packed-release/target/
 cp source-code/target/web-demo-0.0.1-SNAPSHOT.jar packed-release/target/web-demo.jar
-cp -r source-code-gitops gitops
+cp -r source-code-gitops/. gitops
 sed -r -i "s/^(\s*)(newTag\s*:.*$)/\1newTag: \"${VERSION}\"/" gitops/kubernetes/kustomization.yaml
