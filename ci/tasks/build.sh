@@ -27,3 +27,8 @@ cp source-code/target/web-demo-0.0.1-SNAPSHOT.jar packed-release/target/web-demo
 cp -r source-code-gitops/. gitops
 sed -r  "s/^(\s*)(newTag\s*:.*$)/\1newTag: \"${VERSION}\"/" gitops/kubernetes/kustomization.yaml
 sed -r -i "s/^(\s*)(newTag\s*:.*$)/\1newTag: \"${VERSION}\"/" gitops/kubernetes/kustomization.yaml
+pushd gitops
+git config --global user.name "YOUR NAME"
+git config --global user.email "none@none.com"
+git add .
+git commit -m "update by ci"
