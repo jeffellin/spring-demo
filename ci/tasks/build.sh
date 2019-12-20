@@ -24,4 +24,4 @@ mkdir packed-release/target
 cp source-code/docker/Dockerfile packed-release/target/
 # cp source-code/kubernetes/*.yml packed-release/target/
 cp source-code/target/web-demo-0.0.1-SNAPSHOT.jar packed-release/target/web-demo.jar
-sed -r  's/^(\s*)(newTag\s*:.*$)/\1newTag: \"fosdfo\"/' source-code-gitops/kubernetes/kustomize.yml
+sed -r  's/^(\s*)(newTag\s*:.*$)/\1newTag: \"fosdfo\"/' source-code-gitops/kubernetes/kustomization.yaml
