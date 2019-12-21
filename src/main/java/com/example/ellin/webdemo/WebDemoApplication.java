@@ -42,11 +42,11 @@ public class WebDemoApplication {
 			final Random rn = new Random();
 			final int answer = rn.nextInt(5) + 1;
 
-			Thread.sleep(answer * 1000);
+			//Thread.sleep(answer * 1000);
 
 			results.put("string","helloworld");
 			results.put("color","yellow");
-			results.put("version","two");
+			results.put("version","three");
 			results.put("counter", Integer.toString(answer));
 			return results;
 
@@ -65,7 +65,7 @@ public class WebDemoApplication {
 			final Random rn = new Random();
 			final int answer = rn.nextInt(5) + 1;
 
-			Thread.sleep(answer * 1000);
+			//Thread.sleep(answer * 1000);
 
 			results.put("string","hi");
 			results.put("color","yellow");
