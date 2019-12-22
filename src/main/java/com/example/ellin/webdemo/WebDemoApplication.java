@@ -39,7 +39,7 @@ public class WebDemoApplication {
         @Timed
         public Map<String, String> sayHello() throws InterruptedException {
 
-            final String color = "yello"
+            final String color = "yellow";
             final Tag tag = Tag.of("color", color);
             final Map<String, String> results = new HashMap<>();
             final Counter counter = registry.counter("hello", Collections.singletonList(tag));
