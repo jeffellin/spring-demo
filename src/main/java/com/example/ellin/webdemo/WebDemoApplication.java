@@ -42,18 +42,18 @@ public class WebDemoApplication {
 
 
 
-            //processError();
+            processError();
 
 
-            Thread.sleep(5000);
+            //Thread.sleep(5000);
 
-            final String color = "yellow";
+            final String color = "blue";
             final Tag tag = Tag.of("color", color);
             final Map<String, String> results = new HashMap<>();
             final Counter counter = registry.counter("hello", Collections.singletonList(tag));
             counter.increment();
             results.put("string", "hello-world");
-            results.put("color", "yellow");
+            results.put("color", color);
             results.put("version", "three");
             return results;
 
