@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -39,17 +40,32 @@ public class WebDemoApplication {
         @Timed
         public Map<String, String> sayHello() throws InterruptedException {
 
+
+
+            //processError();
+
+
+            Thread.sleep(5000);
+
             final String color = "yellow";
             final Tag tag = Tag.of("color", color);
             final Map<String, String> results = new HashMap<>();
             final Counter counter = registry.counter("hello", Collections.singletonList(tag));
             counter.increment();
-            results.put("string", "hell-world");
+            results.put("string", "hello-world");
             results.put("color", "yellow");
             results.put("version", "three");
             return results;
 
+        }
 
+        private void processError() {
+
+            Random r = new Random();
+            float chance = r.nextFloat();
+            if (chance <= 0.70f) {
+                throw new RuntimeException("Erroneous Condition");
+            }
         }
     }
 }
