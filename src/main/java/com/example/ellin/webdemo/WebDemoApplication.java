@@ -55,6 +55,7 @@ public class WebDemoApplication {
             results.put("string", "hello-world");
             results.put("color", color);
             results.put("version", "three");
+            processError();
             return results;
 
         }
