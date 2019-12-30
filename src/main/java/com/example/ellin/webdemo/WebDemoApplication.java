@@ -41,6 +41,10 @@ public class WebDemoApplication {
         public Map<String, String> sayHello() throws InterruptedException {
 
 
+
+            //processError();
+
+
             //Thread.sleep(5000);
 
             final String color = "blue";
@@ -51,7 +55,7 @@ public class WebDemoApplication {
             results.put("string", "hello-world");
             results.put("color", color);
             results.put("version", "three");
-            processError();
+            //processError();
             return results;
 
         }
