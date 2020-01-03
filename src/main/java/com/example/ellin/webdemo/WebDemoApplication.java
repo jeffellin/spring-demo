@@ -47,7 +47,7 @@ public class WebDemoApplication {
 
             //Thread.sleep(5000);
 
-            final String color = "green";
+            final String color = "blue";
             final Tag tag = Tag.of("color", color);
             final Map<String, String> results = new HashMap<>();
             final Counter counter = registry.counter("hello", Collections.singletonList(tag));
