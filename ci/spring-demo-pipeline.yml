@@ -65,11 +65,11 @@ jobs:
           - name: gitops
       - put: version
         params: {file: version/version}
-      - put: source-code-gitops 
-        params: 
-          repository: gitops
       - put: docker-image
         params:
           build: packed-release/target
           tag_file: version/version
           tag_as_latest: true
+      - put: source-code-gitops 
+        params: 
+          repository: gitops
