@@ -4,7 +4,7 @@ import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +31,9 @@ public class WebDemoApplication {
     @RestController
     public class RestDemo {
 
+        @Value("${service.color:plain}")
+        String color;
+
         private final Log log = LogFactory.getLog(getClass());
 
         @Autowired
@@ -47,7 +50,6 @@ public class WebDemoApplication {
 
             //Thread.sleep(5000);
 
-            final String color = "blue";
             final Tag tag = Tag.of("color", color);
             final Map<String, String> results = new HashMap<>();
             final Counter counter = registry.counter("hello", Collections.singletonList(tag));
