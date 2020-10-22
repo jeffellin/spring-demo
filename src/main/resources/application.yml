@@ -1,5 +1,9 @@
 service:
   color: red
+wavefront:
+  application:
+    name: jellin-spring-demo
+    service: spring-demo
 management:
   endpoints:
     web:
@@ -11,6 +15,9 @@ management:
     prometheus:
       enabled: true
   metrics:
+    export:
+      wavefront:
+        uri: https://wavefront.surf
     distribution:
       percentiles-histogram:
         http.client.requests: true
@@ -19,7 +26,7 @@ spring:
   zipkin:
     base-url: "http://zipkin-jellin.cfapps.io"
   application:
-    name: hop2
+    name: spring-demo
   sleuth:
     sampler:
       probability: 1
